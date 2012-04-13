@@ -18,8 +18,10 @@ no_index:
     - t
     - inc
 requires:
+  Class::Struct: 0
+  Constant::Generate: 0.16
   POE: 0
   POE::Sugar::Attributes: 0.02
   Proc::Terminator: 0.03
   Test::More: 0
-version: 0.01
+version: 0.02
