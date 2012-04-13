@@ -2,17 +2,16 @@ package POE::Component::ProcTerminator::Batch;
 use strict;
 use warnings;
 use Proc::Terminator;
-use Proc::Terminator::Struct qw(mkstruct);
-use base qw(Proc::Terminator::Batch);
+use Moo;
 
-mkstruct __PACKAGE__,
-    [
-     @Proc::Terminator::Batch::_FieldSpecs,
-     timer_id => '$',
-     user_data => '$',
-     failure_callback => '$',
-     cleanup_flags => '$'
-    ];
+extends 'Proc::Terminator::Batch';
+has timer_id => (is => 'rw');
+has failure_callback => (
+    is => 'ro',
+    isa => sub { ref $_[0] eq 'CODE'
+        or die "Failure callback should be a CODE reference" }
+);
+has cleanup_flags => ( is => 'rw', default => 0 );
 
 package POE::Component::ProcTerminator;
 use warnings;
@@ -46,7 +45,7 @@ struct
         
     ];
     
-our $VERSION = 0.02;
+our $VERSION = 0.03;
 
 
 sub spawn {
